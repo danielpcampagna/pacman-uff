@@ -156,26 +156,12 @@ def depthFirstSearch(problem):
       _unvisit(currentState)
       return False
     #import pdb; pdb.set_trace()
-    
-
-  print
-  print "######################"
-  print
 
   getPath(problem.getStartState())
-  import pdb; pdb.set_trace()
   result = []
   while(not solution.isEmpty()):
     result.append(solution.pop())
-
-  print "isEmpty: "+ str(solution.isEmpty())
-  print "SOLUTION: " + str(solution)
-  print "RESULT: " + str(result)
-
-  print
-  print "######################"
-  print
-
+    
   return result
 
 def breadthFirstSearch(problem):
