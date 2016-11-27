@@ -76,13 +76,107 @@ def depthFirstSearch(problem):
   
   To get started, you might want to try some of these simple commands to
   understand the search problem that is being passed in:
-  
+
   print "Start:", problem.getStartState()
   print "Is the start a goal?", problem.isGoalState(problem.getStartState())
   print "Start's successors:", problem.getSuccessors(problem.getStartState())
   """
-  "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+  #"*** YOUR CODE HERE ***"
+  #util.raiseNotDefined()
+
+  from game import Directions
+  from util import Stack
+
+  s = Directions.SOUTH
+  w = Directions.WEST
+  e = Directions.EAST
+  n = Directions.NORTH
+
+  result = []
+  visited = []
+  solution = Stack()
+
+  def _getX(state):
+    if state == None: return None
+    return state[0]
+  def _getY(state):
+    if state == None: return None
+    return state[1]
+
+  def _isVisited(state):
+    if state == None: return None
+    # REFATORAR: usar uma estrutura de acesso otimo 
+    x, y = _getX(state), _getY(state)
+    return (x,y) in visited
+
+  def _getSuccessorsNotVisitedState(state):
+    if state == None: return None
+    return ([scs 
+      for scs in problem.getSuccessors(state)
+      if(not _isVisited(_getState(scs)))])
+
+  def _getState(successor):
+    if successor == None: return None
+    return successor[0]
+
+  def _visit(state):
+    if state == None: return None
+    visited.append(state)
+
+  def _unvisit(state):
+    if state == None: return None
+    visited.remove(state)
+
+  def _getDirection(successor):
+    if successor == None: return None
+    return successor[1]
+
+#  def _getDirection(stateSrc, stateDst):
+#    if stateSrc ==  stateDst == None: return None
+#
+#    xS, yS = stateSrc[0], stateSrc[1]
+#    xD, yD = stateDst[0], stateDst[1]
+#    if(xS > xD): return w
+#    if(xS < xD): return e
+#    if(yS > yD): return s
+#    if(yS < yD): return n
+#    return Directions.STOP
+
+  def getPath(currentState):
+    if currentState == None: return None
+
+    _visit(currentState)
+    if(problem.isGoalState(currentState)):
+      return True
+    else:
+      for successor in _getSuccessorsNotVisitedState(currentState):
+        if(getPath(_getState(successor))):
+          solution.push(_getDirection(successor))
+          return True
+      _unvisit(currentState)
+      return False
+    #import pdb; pdb.set_trace()
+    
+
+  print
+  print "######################"
+  print
+
+  getPath(problem.getStartState())
+  import pdb; pdb.set_trace()
+  result = []
+  while(not solution.isEmpty()):
+    result.append(solution.pop())
+
+  print "isEmpty: "+ str(solution.isEmpty())
+  print "SOLUTION: " + str(solution)
+  print "RESULT: " + str(result)
+
+  print
+  print "######################"
+  print
+
+  return result
 
 def breadthFirstSearch(problem):
   "Search the shallowest nodes in the search tree first. [p 81]"
