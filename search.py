@@ -167,7 +167,34 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
   "Search the shallowest nodes in the search tree first. [p 81]"
   "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+  fronteira = util.PriorityQueueWithFunction(len);
+
+  print "Start:", problem.getStartState()
+  print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+  print "Start's successors:", problem.getSuccessors(problem.getStartState())
+
+  explorados = []
+  fronteira.push([(problem.getStartState(), "Stop", 0)])
+
+  while not fronteira.isEmpty():
+
+      caminho = fronteira.pop()
+      obj = caminho[len(caminho) - 1]
+      obj = obj[0]
+      if problem.isGoalState(obj):
+          print "SOLUCAO: ", [x[1] for x in caminho]
+          return [x[1] for x in caminho][1:]
+
+      if obj not in explorados:
+          explorados.append(obj)
+
+          for prox in problem.getSuccessors(obj):
+              if prox[0] not in explorados:
+                  caminhoProx = caminho[:]
+                  caminhoProx.append(prox)
+                  fronteira.push(caminhoProx)
+
+  return []
       
 def uniformCostSearch(problem):
   "Search the node of least total cost first. "
