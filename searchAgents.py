@@ -28,6 +28,7 @@ project description for details.
 
 Good luck and happy searching!
 """
+import math
 from game import Directions
 from game import Agent
 from game import Actions
@@ -435,9 +436,31 @@ def foodHeuristic(state, problem):
     problem.heuristicInfo['wallCount'] = problem.walls.count()
   Subsequent calls to this heuristic can access problem.heuristicInfo['wallCount']
   """
+  def noMaisProximo(position, listaComidas):
+    if len(listaComidas) == 0:
+      return None
+    pontoProximo = listaComidas[0]
+    pontoCusto = euclideanDistance(position,pontoProximo)
+    for comida in listaComidas[1:]:
+      custo = euclideanDistance(position,comida)
+      if custo < pontoCusto:
+        pontoCusto = custo
+        pontoProximo = comida
+
+    return pontoProximo
+
+  def euclideanDistance(position1,position2):
+    return math.sqrt((position1[0] + position2[0])**2 + (position1[1] + position2[1])**2)
+
   position, foodGrid = state
-  "*** YOUR CODE HERE ***"
-  return 0
+  listaComidas = foodGrid.asList()
+  if(len(listaComidas) == 0):
+    return 0
+
+  comidaProxima = noMaisProximo(position, listaComidas)
+  return euclideanDistance(position,comidaProxima) + len(listaComidas)
+
+
   
 class ClosestDotSearchAgent(SearchAgent):
   "Search for all food using a sequence of searches"

@@ -169,9 +169,9 @@ def breadthFirstSearch(problem):
   "*** YOUR CODE HERE ***"
   Fila = util.PriorityQueueWithFunction(len);
 
-  print "Start:", problem.getStartState()
-  print "Is the start a goal?", problem.isGoalState(problem.getStartState())
-  print "Start's successors:", problem.getSuccessors(problem.getStartState())
+  # print "Start:", problem.getStartState()
+  # print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+  # print "Start's successors:", problem.getSuccessors(problem.getStartState())
 
   explorados = []
   Fila.push([(problem.getStartState(), "Stop", 0)])
@@ -182,7 +182,7 @@ def breadthFirstSearch(problem):
       obj = caminho[len(caminho) - 1]
       obj = obj[0]
       if problem.isGoalState(obj):
-          print "SOLUCAO: ", [x[1] for x in caminho]
+          # print "SOLUCAO: ", [x[1] for x in caminho]
           return [x[1] for x in caminho][1:]
 
       if obj not in explorados:
@@ -212,11 +212,11 @@ def aStarSearch(problem, heuristic=nullHeuristic):
   "Search the node that has the lowest combined cost and heuristic first."
   "*** YOUR CODE HERE ***"
   cost = lambda Custo: problem.getCostOfActions([x[1] for x in Custo]) + heuristic(Custo[len(Custo)-1][0],problem)
-  Fila = util.PriorityQueueWithFunction(len)
+  Fila = util.PriorityQueueWithFunction(cost)
 
-  print "Start:", problem.getStartState()
-  print "Is the start a goal?", problem.isGoalState(problem.getStartState())
-  print "Start's successors:", problem.getSuccessors(problem.getStartState())
+  # print "Start:", problem.getStartState()
+  # print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+  # print "Start's successors:", problem.getSuccessors(problem.getStartState())
 
   explorados = []
   Fila.push([(problem.getStartState(), "Stop", 0)])
@@ -227,7 +227,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
       obj = caminho[len(caminho) - 1]
       obj = obj[0]
       if problem.isGoalState(obj):
-          print "SOLUCAO: ", [x[1] for x in caminho]
+          # print "SOLUCAO: ", [x[1] for x in caminho]
           return [x[1] for x in caminho][1:]
 
       if obj not in explorados:
