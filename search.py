@@ -167,18 +167,18 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
   "Search the shallowest nodes in the search tree first. [p 81]"
   "*** YOUR CODE HERE ***"
-  fronteira = util.PriorityQueueWithFunction(len);
+  Fila = util.PriorityQueueWithFunction(len);
 
   print "Start:", problem.getStartState()
   print "Is the start a goal?", problem.isGoalState(problem.getStartState())
   print "Start's successors:", problem.getSuccessors(problem.getStartState())
 
   explorados = []
-  fronteira.push([(problem.getStartState(), "Stop", 0)])
+  Fila.push([(problem.getStartState(), "Stop", 0)])
 
-  while not fronteira.isEmpty():
+  while not Fila.isEmpty():
 
-      caminho = fronteira.pop()
+      caminho = Fila.pop()
       obj = caminho[len(caminho) - 1]
       obj = obj[0]
       if problem.isGoalState(obj):
@@ -192,7 +192,7 @@ def breadthFirstSearch(problem):
               if prox[0] not in explorados:
                   caminhoProx = caminho[:]
                   caminhoProx.append(prox)
-                  fronteira.push(caminhoProx)
+                  Fila.push(caminhoProx)
 
   return []
       
@@ -211,7 +211,35 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
   "Search the node that has the lowest combined cost and heuristic first."
   "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+  cost = lambda Custo: problem.getCostOfActions([x[1] for x in Custo]) + heuristic(Custo[len(Custo)-1][0],problem)
+  Fila = util.PriorityQueueWithFunction(len)
+
+  print "Start:", problem.getStartState()
+  print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+  print "Start's successors:", problem.getSuccessors(problem.getStartState())
+
+  explorados = []
+  Fila.push([(problem.getStartState(), "Stop", 0)])
+
+  while not Fila.isEmpty():
+
+      caminho = Fila.pop()
+      obj = caminho[len(caminho) - 1]
+      obj = obj[0]
+      if problem.isGoalState(obj):
+          print "SOLUCAO: ", [x[1] for x in caminho]
+          return [x[1] for x in caminho][1:]
+
+      if obj not in explorados:
+          explorados.append(obj)
+
+          for prox in problem.getSuccessors(obj):
+              if prox[0] not in explorados:
+                  caminhoProx = caminho[:]
+                  caminhoProx.append(prox)
+                  Fila.push(caminhoProx)
+
+  return []
     
   
 # Abbreviations
